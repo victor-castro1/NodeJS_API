@@ -6,8 +6,8 @@
 
     "module": "commonjs",
 
-    "outDir": "dist",                         // Aqui diz ao TypeScript, onde irar colocar os arquivos, depois da compilação  
-    "rootDir": "src",                         // Diz ao TypeScript, onde estão os arquivos iniciais, O compilador só irar olhar para ela
+    "outDir": "./dist",                         // Aqui diz ao TypeScript, onde irar colocar os arquivos, depois da compilação  
+    "rootDir": "./src",                         // Diz ao TypeScript, onde estão os arquivos iniciais, O compilador só irar olhar para ela
 
     "esModuleInterop": true,
 
