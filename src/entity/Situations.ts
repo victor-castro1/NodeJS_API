@@ -1,9 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm"
+import { User } from "./Users"
 
-@Entity('situations')
+@Entity("situations")
 export class Situation {
     @PrimaryGeneratedColumn()
-    id!: number
+    id!: number;
 
     @Column()
     nameSituation!: string;
