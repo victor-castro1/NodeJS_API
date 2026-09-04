@@ -20,5 +20,5 @@ export class User {
     createdAt!: Date;
 
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP", onUpdate: "CURRENT_TIMESTAMP" })
-    updateAt!: Date;
+    updatedAt!: Date;
 }
