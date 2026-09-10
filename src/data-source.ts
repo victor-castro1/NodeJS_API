@@ -1,6 +1,12 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 
+import { Situation } from "./entity/Situations";
+import { Product } from "./entity/Products";
+import { User } from "./entity/Users";
+import { ProductCategory } from "./entity/Product_categories";
+import { ProductSituation } from "./entity/Products_situations";
+
 // Importar variáveis de ambiente
 import dotenv from "dotenv";
 
@@ -18,7 +24,14 @@ export const AppDataSource = new DataSource({
     database: process.env.DB_DATABASE,
     synchronize: false,
     logging: true,
-    entities: [],
+    entities: [Situation, User, Product, ProductCategory, ProductSituation],
     subscribers: [],
     migrations: [__dirname + "/migration/*.js"],
+});
+
+// Inicialização da Conexão com o Banco de Dados
+AppDataSource.initialize().then(() => {
+    console.log("Conexão do Banco de Dados concluída!!! ")
+}).catch((error) => {
+    console.log ("Erro na conexão com o Banco de Dados!", error)
 })
