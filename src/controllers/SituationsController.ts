@@ -28,11 +28,10 @@ router.post("/situations", async(req:Request, res: Response) => {
         });
 
     }catch(error){
-        
-            res.status(500).json({
-                messagem: "Erro ao cadastrar situação!!",
-            });
-
+        console.error(error);
+        res.status(500).json({
+            messagem: "Erro ao cadastrar situação!!",
+        });
     }
 })
 

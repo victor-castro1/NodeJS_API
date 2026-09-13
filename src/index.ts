@@ -7,6 +7,8 @@ import dotenv from "dotenv";
 // Carregando as variáveis do .env
 dotenv.config()
 
+// Inicializa a conexão com o banco de dados
+import "./data-source";
 
 // Criando Aplicação Express
 const app = express()
