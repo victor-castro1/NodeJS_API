@@ -6,7 +6,7 @@ import { Situation } from "../entity/Situations";
 // Criando aplicação Express -> ROTAS
 const router = express();
 
-// Criar a LISTA
+// Criar a Lista
 router.get("/situations", async(req:Request, res:Response) => {
     try{
 
@@ -19,7 +19,7 @@ router.get("/situations", async(req:Request, res:Response) => {
 
     } catch (error) {
         res.status(500).json({
-            messagem : "Erro ao listar situação"
+            messagem : "Erro ao listar situação",
         })
         return;
     }
@@ -47,7 +47,7 @@ router.get("/situations/:id", async(req:Request, res:Response) => {
 
     } catch (error) {
         res.status(500).json({
-            messagem : "Erro ao listar situação"
+            messagem : "Erro ao visualizar situação",
         })
         return
     }
@@ -77,6 +77,43 @@ router.post("/situations", async(req:Request, res: Response) => {
     }
 })
 
-// Exportar a instrução da rota
+// Criar a Edição do item cadastrado em situação
+router.put("/situations/:id", async(req:Request, res:Response) => {
+    try{
 
+        const id = Number(req.params.id); // Converte um "texto" -> para um valor NUMÉRICO real
+
+        var data = req.body;
+
+        const situationRepository = AppDataSource.getRepository(Situation);
+        
+        const situation = await situationRepository.findOneBy({ id }) 
+
+        if (!situation) {
+            res.status(404).json({ 
+                messagem: "Situação não encontrada!",
+            });
+            return
+        }
+
+        // Atualiza dados da situação
+        situationRepository.merge(situation, data)
+
+        // Salvar as alterções dos dados
+        const updateSituation = await situationRepository.save(situation)
+
+        res.status(201).json({
+            messagem: "Situação atualizada com sucesso!!",
+            situation: updateSituation,
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            messagem : "Erro ao atualizar a situação",
+        })
+        return
+    }
+})
+
+// Exportar a instrução da rota
 export default router 
