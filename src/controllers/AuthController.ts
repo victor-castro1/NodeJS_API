@@ -10,5 +10,4 @@ router.get("/", (req:Request, res:Response) => {
 })
 
 // Exportar a instrução da rota
-
 export default router 

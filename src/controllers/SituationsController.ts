@@ -2,6 +2,7 @@
 import express, {Request, Response} from "express";
 import { AppDataSource } from "../data-source";
 import { Situation } from "../entity/Situations";
+import { PaginationService } from "../services/PaginationService";
 
 // Criando aplicação Express -> ROTAS
 const router = express();
@@ -17,48 +18,12 @@ router.get("/situations", async(req:Request, res:Response) => {
         const page = Number(req.query.page) || 1;
 
         // Definir o limite de registros 
-        const limit = 1;
+        const limit = Number(req.query.limit) || 10;
 
-        // Contar o total de registros no banco de dados
-        const totalSituation = await situationRepository.count()
-
-        // Verificar se existem registros
-        if (totalSituation === 0){
-            res.status(400).json({
-            message: "Nenhuma situação encontrada",
-            })
-            return;
-        }
-
-        // Calcular a última página 
-        const lastPage = Math.ceil(totalSituation / limit)
-
-        // Verificar se a página solicitada é válida 
-        if (page > lastPage){
-            res.status(400).json({
-                message: `Página inválida, O total de páginas é igual a ${lastPage}`,
-            });
-            return;
-        }
-
-        // Calcular o offset(a partir de qual registro começar a busca)
-        const offset = (page - 1) * limit;
-
-        // Recuperar as situações do banco de dados com a paginação 
-        const situations = await situationRepository.find({
-            take: limit,
-            skip: offset,
-            order: {id: "DESC"}
-        });
-
+        const result = await PaginationService.paginate(situationRepository, page, limit, {id: "DESC"});
 
         // Retornar a resposta com os dados e informações da paginação
-        res.status(200).json({
-            currentPage: page,
-            lastPage,
-            totalSituation,
-            situations,
-        });
+        res.status(200).json(result);
         return;
 
     } catch (error) {
