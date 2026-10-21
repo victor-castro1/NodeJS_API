@@ -7,8 +7,8 @@ import dotenv from "dotenv";
 // Carregando as variáveis do .env
 dotenv.config()
 
-// Inicializa a conexão com o banco de dados
-import "./data-source";
+// Acesso ao DataSource para inicialização explícita
+import { AppDataSource } from "./data-source";
 
 // Criando Aplicação Express
 const app = express()
@@ -34,8 +34,13 @@ app.use ('/', ProductSituationsController)
 app.use ('/', ProductsController)
 app.use ('/', UsersController)
 
-// Iniciar o servidor -> porta: 8080 (é uma porta padrão)
-app.listen(process.env.PORT, () => {
-    console.log(`Servidor iniciado na porta ${process.env.PORT}: http://localhost:${process.env.PORT}`) 
-    
+// Iniciar o servidor somente após conectar ao banco de dados
+AppDataSource.initialize().then(() => {
+    console.log("Conexão do Banco de Dados concluída!!! ");
+    app.listen(process.env.PORT, () => {
+        console.log(`Servidor iniciado na porta ${process.env.PORT}: http://localhost:${process.env.PORT}`)
+    });
+}).catch((error) => {
+    console.error("Erro na conexão com o Banco de Dados!", error);
+    process.exitCode = 1;
 });
