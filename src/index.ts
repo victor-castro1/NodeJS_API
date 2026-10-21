@@ -22,6 +22,7 @@ import AuthController from "./controllers/AuthController";
 import SituationsController from "./controllers/SituationsController";
 import ProductCategoriesController from "./controllers/ProductCategoriesController";
 import ProductSituationsController from "./controllers/ProductSituationsController";
+import ProductsController from "./controllers/ProductsController";
 
 
 // Criando as rotas
@@ -29,6 +30,7 @@ app.use ('/', AuthController)
 app.use ('/', SituationsController)
 app.use ('/', ProductCategoriesController)
 app.use ('/', ProductSituationsController)
+app.use ('/', ProductsController)
 
 // Iniciar o servidor -> porta: 8080 (é uma porta padrão)
 app.listen(process.env.PORT, () => {
